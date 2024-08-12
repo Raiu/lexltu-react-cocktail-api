@@ -1,0 +1,154 @@
+@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+    --primary-color: #233048;
+    --secondary-color: #1f2d3b;
+    --tertiary-color: #1f2d3b;
+
+    --background-color-primary: var(--color-zinc-900);
+    --background-color-secondary: var(--color-zinc-100);
+
+    --font-family: "Libre Franklin", sans-serif;
+
+    --font-color-primary: var(--color-zinc-50);
+    --font-color-secondary: rgb(2, 6, 23);
+    --font-color-muted: var(--color-zinc-300);
+
+    --font-size-small: 0.8rem;
+    --font-size-medium: 1rem;
+    --font-size-large: 1.2rem;
+
+    --border-radius-small: 0.25rem;
+    --border-radius: 0.5rem;
+    --border-radius-large: 1rem;
+
+    --color-cox-50: rgb(255, 186, 8);
+    --color-cox-100: rgb(250, 163, 7);
+    --color-cox-200: rgb(244, 140, 6);
+    --color-cox-300: rgb(232, 93, 4);
+    --color-cox-400: rgb(220, 47, 2);
+    --color-cox-500: rgb(208, 0, 0);
+    --color-cox-600: rgb(157, 2, 8);
+    --color-cox-700: rgb(106, 4, 15);
+    --color-cox-800: rgb(55, 6, 23);
+    --color-cox-900: rgb(3, 7, 30);
+    --color-zinc-50: rgb(250, 250, 250);
+    --color-zinc-100: rgb(244, 244, 245);
+    --color-zinc-200: rgb(228, 228, 231);
+    --color-zinc-300: rgb(212, 212, 216);
+    --color-zinc-400: rgb(161, 161, 170);
+    --color-zinc-500: rgb(113, 113, 122);
+    --color-zinc-600: rgb(82, 82, 91);
+    --color-zinc-700: rgb(63, 63, 70);
+    --color-zinc-800: rgb(39, 39, 42);
+    --color-zinc-900: rgb(24, 24, 27);
+    --color-zinc-950: rgb(9, 9, 11);
+    --color-red-50: rgb(254, 242, 242);
+    --color-red-100: rgb(254, 226, 226);
+    --color-red-200: rgb(254, 202, 202);
+    --color-red-300: rgb(252, 165, 165);
+    --color-red-400: rgb(248, 113, 113);
+    --color-red-500: rgb(239, 68, 68);
+    --color-red-600: rgb(220, 38, 38);
+    --color-red-700: rgb(185, 28, 28);
+    --color-red-800: rgb(153, 27, 27);
+    --color-red-900: rgb(127, 29, 29);
+    --color-red-950: rgb(69, 10, 10);
+    --color-green-50: rgb(240, 253, 244);
+    --color-green-100: rgb(220, 252, 231);
+    --color-green-200: rgb(187, 247, 208);
+    --color-green-300: rgb(134, 239, 172);
+    --color-green-400: rgb(74, 222, 128);
+    --color-green-500: rgb(34, 197, 94);
+    --color-green-600: rgb(22, 163, 74);
+    --color-green-700: rgb(21, 128, 61);
+    --color-green-800: rgb(22, 101, 52);
+    --color-green-900: rgb(20, 81, 45);
+    --color-green-950: rgb(5, 46, 22);
+    --color-blue-50: rgb(239, 246, 255);
+    --color-blue-100: rgb(219, 234, 254);
+    --color-blue-200: rgb(191, 219, 254);
+    --color-blue-300: rgb(147, 197, 253);
+    --color-blue-400: rgb(96, 165, 250);
+    --color-blue-500: rgb(59, 130, 246);
+    --color-blue-600: rgb(37, 99, 235);
+    --color-blue-700: rgb(29, 78, 216);
+    --color-blue-800: rgb(30, 64, 175);
+    --color-blue-900: rgb(30, 58, 138);
+    --color-blue-950: rgb(23, 37, 84);
+}
+
+/*
+ * RESET
+ *********************************************************/
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+html {
+    color-scheme: dark light;
+    hanging-punctuation: first last;
+}
+
+body {
+    min-height: 100svh;
+}
+
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+p,
+li {
+    max-width: var(--p-max-width, 65ch);
+    text-wrap: pretty;
+}
+
+/* GENRAL */
+/***********************/
+
+html * {
+    color: var(--font-color-primary);
+    font-family: var(--font-family);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    background-color: var(--background-color-primary);
+}
+
+a {
+    all: unset;
+}
+
+a {
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
+}
