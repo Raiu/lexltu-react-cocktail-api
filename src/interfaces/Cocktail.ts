@@ -2,6 +2,7 @@ export enum Alcoholic {
     Alcohol = "Alcoholic",
     Optional = "Optional alcohol",
     None = "Non alcoholic",
+    Unknown = "Unknown",
 }
 
 export interface IDrink {
@@ -29,6 +30,11 @@ export interface IIngredient {
 }
 
 export type CocktailData = IDrinkData | IIngredientData | IFilterListData;
+
+export interface ICocktailData {
+    drinks?: IDrinkData[] | IFilterListData[];
+    ingredients?: IIngredientData[];
+}
 
 export interface IDrinkData {
     idDrink: string;

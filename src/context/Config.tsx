@@ -14,7 +14,6 @@ interface IConfigProps {
 
 export function ConfigProvider({ children, configPath }: IConfigProps): React.ReactElement {
     /* const context = React.useContext(ConfigContext); */
-
     const [config, setConfig] = React.useState<IConfig>({} as IConfig);
 
     React.useEffect(() => {
@@ -23,12 +22,10 @@ export function ConfigProvider({ children, configPath }: IConfigProps): React.Re
                 if (!response.ok) {
                     throw new Error("Failed to fetch config");
                 }
-                console.log(response)
                 return response.json();
             })
             .then(data => setConfig(data))
             .catch(error => {
-                console.error(error)
                 throw error;
             });
     }, [configPath, setConfig]);

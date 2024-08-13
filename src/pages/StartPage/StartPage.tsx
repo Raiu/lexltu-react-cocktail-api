@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { IDrink } from "@interfaces";
 import { Cocktail } from "@models";
-import { Card as CoxCard } from "@components/Card";
+import { CoxCard } from "@components/CoxCard";
 
 /* import { useConfig } from "@context"; */
 /* import { buildUrl } from "@helpers"; */
@@ -23,8 +23,8 @@ export function StartPage() {
             });
     }, []);
 
-    useEffect(() => {
-        Cocktail.drinkById(1)
+    /* useEffect(() => {
+        Cocktail.drinkById(12776)
             .then((drink) => {
                 console.log("Drink by id:", drink);
             })
@@ -65,7 +65,7 @@ export function StartPage() {
                 console.log("drinksByIngredient: ")
                 console.error(error);
             });
-    }, []);
+    }, []); */
 
     return (
         <div>

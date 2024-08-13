@@ -9,7 +9,7 @@ interface ICardProps {
 
 import './index.css';
 
-export function Card(props: ICardProps) {
+export function CoxCard(props: ICardProps) {
 
     return (
         <div className={"card" + props.className ?? ""}>
