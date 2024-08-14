@@ -2,6 +2,8 @@ import { IDrink } from "@interfaces";
 import { Cocktail } from "@models";
 import { useEffect, useState } from "react";
 
+import {Input} from "@nextui-org/react";
+
 export default function SearchPage() {
     const [searchInput, setSearchInput] = useState("");
     const [searchSubmit, setSearchSubmit] = useState(false);
@@ -55,8 +57,9 @@ export default function SearchPage() {
         <div>
             <div>
                 <form className="search-form" onSubmit={handleSubmit}>
-                    <input type="text" placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} style={{ color: "black" }} />
-                    <button type="submit">Search</button>                    
+                    <Input type="test" label="Search" onChange={(e) => setSearchInput(e.target.value)} />
+                    {/* <input type="text" placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} style={{ color: "black" }} /> */}
+                    <button className="btn" type="submit">Search</button>                    
                 </form>
             </div>
 

@@ -1,7 +1,27 @@
+import {
+    Navbar,
+    NavbarBrand,
+    NavbarContent,
+    NavbarItem,
+    NavbarMenuToggle,
+    NavbarMenu,
+    NavbarMenuItem,
+} from "@nextui-org/react";
+import { NavLink } from "react-router-dom";
+
 export function Header() {
     return (
         <div>
-            <h1>Header</h1>
+            <Navbar>
+                <NavbarBrand>
+                    <p>Cocktail</p>
+                </NavbarBrand>
+                <NavbarContent>
+                    <NavbarItem>
+                        <NavLink to="/">Home</NavLink>
+                    </NavbarItem>
+                </NavbarContent>
+            </Navbar>
         </div>
-    )
+    );
 }
