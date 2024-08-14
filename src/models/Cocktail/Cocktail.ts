@@ -1,10 +1,6 @@
-import {
-    ICocktailData,
-    IDrinkData,
-    IFilterListData,
-    IIngredientData,
-} from "@interfaces";
-import { Parser } from "./Parser";
+import { ICocktailData, IDrinkData, IFilterListData, IIngredientData } from "@interfaces";
+import { Parser } from "./parser";
+/* import Cache from "./cache"; */
 
 const apiUrl = "https://www.thecocktaildb.com/api/json/v1/1";
 const apiResourceExt = ".php";
@@ -66,7 +62,7 @@ const isIngredientsData = (data: ICocktailData) => {
 };
 
 const isFilterListData = (data: ICocktailData) => {
-    return data.drinks?.length && data.drinks.map(x => Object.keys(x)).length > 0;
+    return data.drinks?.length && data.drinks.map((x) => Object.keys(x)).length > 0;
 };
 
 const getDrinks = async (resource: string, parameters?: string) => {

@@ -2,6 +2,7 @@ import { createBrowserRouter, createRoutesFromElements, Route } from "react-rout
 import { StartPage } from "@pages";
 import { App } from "@/App";
 import SearchPage from "@pages/SearchPage/SearchPage";
+import CocktailPage from "@pages/CocktailPage/CocktailPage";
 
 
 /* export function Router() {
@@ -17,6 +18,7 @@ export const router = createBrowserRouter(
             <Route index element={<StartPage />} />
             <Route path="home" element={<StartPage />} />
             <Route path="search" element={<SearchPage />} />
+            <Route path="drink/:idCox" element={<CocktailPage />} />
             {/* <Route path="*" element={<NotFoundPage />} /> */}
         </Route>
     )
