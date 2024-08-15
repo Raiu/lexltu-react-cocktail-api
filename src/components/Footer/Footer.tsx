@@ -1,7 +1,9 @@
 export function Footer() {
     return (
-        <div>
-            <h1>Footer</h1>
-        </div>
-    )
+        <footer className="text-center lg:text-left">
+            <div className="p-4 text-center">
+                © 2024 Copyright Cox
+            </div>
+        </footer>
+    );
 }

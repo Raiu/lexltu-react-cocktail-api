@@ -7,11 +7,14 @@ export function App() {
     console.log("Config:", useConfig());
     return (
         <>
+        <div className="">
             <Header />
-            <main>
+            <main className="dark text-foreground bg-background">
                 <Outlet />
             </main>
             <Footer />
+
+        </div>
         </>
     );
 }

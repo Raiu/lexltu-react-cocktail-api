@@ -36,6 +36,7 @@ const parseDrinks = (drinks: IDrinkData[]): IDrink[] =>
             iba: item.strIBA ?? "",
             alcoholic,
             glass: item.strGlass ?? "",
+            instructions: item.strInstructions ?? "",
             ingredients,
             image: item.strDrinkThumb ?? "",
             imageSource: item.strImageSource ?? "",
@@ -57,8 +58,10 @@ const parseIngredients = (ingredients: IIngredientData[]): IIngredient[] =>
 const parseFilters = (filters: IFilterListData[]): string[] =>
     filters.map((item) => Object.values(item)[0]);
 
-export const Parser = {
+const CoxParser = {
     drinks: parseDrinks,
     ingredients: parseIngredients,
     filters: parseFilters,
 };
+
+export default CoxParser;

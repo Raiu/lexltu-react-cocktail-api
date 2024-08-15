@@ -1,6 +1,13 @@
-import { ICocktailData, IDrinkData, IFilterListData, IIngredientData } from "@interfaces";
-import { Parser } from "./parser";
-/* import Cache from "./cache"; */
+import {
+    ICocktailData,
+    IDrink,
+    IDrinkData,
+    IFilterListData,
+    IIngredient,
+    IIngredientData,
+} from "@interfaces";
+import CoxParser from "./CoxParser";
+import CoxCache from "./CoxCache";
 
 const apiUrl = "https://www.thecocktaildb.com/api/json/v1/1";
 const apiResourceExt = ".php";
@@ -12,41 +19,21 @@ enum CoxFilterType {
     Ingredient = "ingredient",
 }
 
-const fetchData = async (
-    url: string,
-    options?: RequestInit,
-    retries = 3,
-    timeout = 10000
-): Promise<ICocktailData> => {
-    return new Promise((resolve, reject) => {
-        const controller = new AbortController();
-        const timer = setTimeout(() => {
-            controller.abort();
-            reject(new Error("Request timed out"));
-        }, timeout);
-
-        fetch(url, {
-            ...options,
-            signal: controller.signal,
+const fetchData = async (url: string, retries = 3, timeout = 10000): Promise<ICocktailData> => {
+    const signal = AbortSignal.timeout(timeout);
+    return fetch(url, { signal })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
         })
-            .then((response) => {
-                clearTimeout(timer);
-                if (!response.ok) {
-                    reject(new Error(`HTTP error! status: ${response.status}`));
-                }
-                resolve(response.json());
-            })
-            .catch((error) => {
-                clearTimeout(timer);
-                if (retries > 0) {
-                    fetchData(url, options, retries - 1, timeout)
-                        .then(resolve)
-                        .catch(reject);
-                } else {
-                    reject(error);
-                }
-            });
-    });
+        .catch((err) => {
+            if (retries > 0) {
+                fetchData(url, retries - 1, timeout);
+            }
+            return err;
+        });
 };
 
 const buildUrl = (resource: string, parameters?: string) => {
@@ -71,7 +58,7 @@ const getDrinks = async (resource: string, parameters?: string) => {
     if (!isDrinksData(data)) {
         throw new Error("Invalid data");
     }
-    return Parser.drinks(data.drinks as IDrinkData[]);
+    return CoxParser.drinks(data.drinks as IDrinkData[]);
 };
 
 const getIngredients = async (resource: string, parameters?: string) => {
@@ -80,7 +67,7 @@ const getIngredients = async (resource: string, parameters?: string) => {
     if (!isIngredientsData(data)) {
         throw new Error("Invalid data");
     }
-    return Parser.ingredients(data.ingredients as IIngredientData[]);
+    return CoxParser.ingredients(data.ingredients as IIngredientData[]);
 };
 
 const filtersByType = async (filter: CoxFilterType) => {
@@ -102,12 +89,28 @@ const filtersByType = async (filter: CoxFilterType) => {
     if (!isFilterListData(data)) {
         throw new Error("Invalid data");
     }
-    return Parser.filters(data.drinks as IFilterListData[]);
+    return CoxParser.filters(data.drinks as IFilterListData[]);
 };
 
-const drinkRandom = async () => getDrinks("random").then((drinks) => drinks[0]);
+const drinkRandom = async () => {
+    return getDrinks("random")
+        .then((drinks) => {
+            CoxCache.updateDrinks(drinks);
+            return drinks[0];
+        })
+        .catch((error) => error);
+};
 
-const drinkById = async (id: number) => getDrinks("lookup", `i=${id}`).then((drinks) => drinks[0]);
+const drinkById = async (id: number) => {
+    const cached = CoxCache.getDrink(id) as IDrink | null;
+    if (cached) {
+        return cached;
+    }
+
+    const fetched = await getDrinks("lookup", `i=${id}`);
+    CoxCache.updateDrinks(fetched);
+    return fetched[0];
+};
 
 const drinksByName = async (name: string) => getDrinks("search", `s=${name}`);
 
@@ -118,10 +121,28 @@ const drinksByIngredient = async (ingredient: string) => getDrinks("filter", `i=
 const drinksByFilter = async (filter: CoxFilterType, property: string) =>
     getDrinks("filter", `${filter}=${property}`);
 
-const ingredientById = async (id: number) => getIngredients("lookup", `iid=${id}`);
+const ingredientById = async (id: number) => {
+    const cached = CoxCache.getIngredient(id) as IIngredient | null;
+    if (cached) {
+        return cached;
+    }
+
+    const fetched = await getIngredients("lookup", `iid=${id}`);
+    CoxCache.updateIngredients(fetched);
+    return fetched[0];
+};
+
+const drinkRandomCache = (): Promise<IDrink> => {
+    const cachedDrinks = CoxCache.getDrinks();
+    if (cachedDrinks.length < 10) {
+        return drinkRandom();
+    }
+    return Promise.resolve(cachedDrinks[Math.floor(Math.random() * cachedDrinks.length)]);
+};
 
 export const Cocktail = {
     drinkRandom,
+    drinkRandomCache,
     drinkById,
     drinksByName,
     drinksByLetter,

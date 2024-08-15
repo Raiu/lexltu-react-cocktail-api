@@ -6,7 +6,7 @@ import { ConfigProvider } from "@context";
 import { NextUIProvider } from "@nextui-org/react";
 
 import "./index.css";
-import "@/css/index.css";
+/* import "@/css/index.css"; */
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>

@@ -49,15 +49,15 @@ const removeItem = <T extends IHasId>(key: string, id: number) => {
 }
 
 const setDrinks = (drinks: IDrink[]) => setCache("drinks", drinks);
-const getDrinks = () => getCache("drinks");
-const getDrink = (id: number) => getItem("drinks", id);
+const getDrinks = (): IDrink[] => getCache("drinks");
+const getDrink = (id: number): IDrink | null => getItem("drinks", id);
 const updateDrinks = (drinks: IDrink[]) => updateCache("drinks", drinks);
 const removeDrink = (id: number) => removeItem("drunks", id);
 const clearDrinks = () => clearCache("drinks");
 
 const setIngredients = (ingredients: IIngredient[]) => setCache("ingredients", ingredients);
-const getIngredients = () => getCache("ingredients");
-const getIngredient = (id: number) => getItem("ingredients", id);
+const getIngredients = (): IIngredient[] => getCache("ingredients");
+const getIngredient = (id: number): IIngredient | null => getItem("ingredients", id);
 const updateIngredients = (ingredients: IIngredient[]) => updateCache("ingredients", ingredients);
 const removeIngredient = (id: number) => removeItem("ingredients", id);
 const clearIngredients = () => clearCache("ingredients");

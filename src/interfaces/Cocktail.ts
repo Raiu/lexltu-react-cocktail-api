@@ -13,6 +13,7 @@ export interface IDrink {
     iba: string;
     alcoholic: Alcoholic;
     glass: string;
+    instructions: string;
     ingredients: { name: string; measure: string }[];
     image: string;
     imageSource: string;
