@@ -90,7 +90,7 @@ export default function SearchPage() {
                                 {drink.name}
                             </div>
                         </div>
-                            {index !== arr.length - 1 && <Divider />}
+                            {index !== arr.length - 1 && <Divider key={index + "-divider"} />}
                         </>
                     ))}
             </div>

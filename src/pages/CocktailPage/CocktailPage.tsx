@@ -4,7 +4,7 @@ import { Cocktail } from "@models";
 import { IDrink } from "@interfaces";
 import { Chip, Image } from "@nextui-org/react";
 
-interface ICocktailPageProps {}
+/* interface ICocktailPageProps {} */
 
 export default function CocktailPage(): ReactElement {
     const { idCox } = useParams();
@@ -13,9 +13,7 @@ export default function CocktailPage(): ReactElement {
     const id = idCox ? parseInt(idCox) : null;
 
     useEffect(() => {
-        if (!id || drink) {
-            return;
-        }
+        if (!id || drink) return;
 
         Cocktail.drinkById(id)
             .then(setDrink)
@@ -25,7 +23,6 @@ export default function CocktailPage(): ReactElement {
             });
     }, [id, drink, navigate]);
 
-    console.log("Drink: ", drink);
     return (
         <div>
             {drink ? (

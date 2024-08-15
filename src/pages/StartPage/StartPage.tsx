@@ -11,13 +11,16 @@ export function StartPage() {
     /* const [isLoading, setIsLoading] = useState(false); */
     const navigate = useNavigate();
 
+    const loadSurprise = useCallback(async () => {
+        /* setIsLoading(true); */
+        const drinks = await Promise.all([...Array(6)].map(() => Cocktail.drinkRandomCache()));
+        setSurprise(drinks);
+    }, []);
+
     useEffect(() => {
-        if (drink?.id) {
-            return;
-        }
+        if (drink?.id) return;
         Cocktail.drinkRandom()
             .then((drink) => {
-                console.log("Drink:", drink.name);
                 setDrink(drink);
             })
             .catch((error) => {
@@ -26,13 +29,7 @@ export function StartPage() {
             .finally(() => {
                 /* setIsLoading(false); */
             });
-    });
-
-    const loadSurprise = useCallback(async () => {
-        /* setIsLoading(true); */
-        const drinks = await Promise.all([...Array(6)].map(() => Cocktail.drinkRandomCache()));
-        setSurprise(drinks);
-    }, []);
+    } , [drink]);
 
     return (
         <div className="content">

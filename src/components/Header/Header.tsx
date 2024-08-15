@@ -37,7 +37,8 @@ export function Header() {
         <div className="">
             <Navbar>
                 <NavbarBrand>
-                    <p>Cocktail</p>
+                <NavLink to="/"><p>Cocktail</p></NavLink>
+                    
                 </NavbarBrand>
                 <NavbarContent className="gap-4" justify="end">
                     <NavbarItem>
