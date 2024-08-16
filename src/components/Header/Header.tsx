@@ -12,9 +12,10 @@ import {
     DropdownItem,
     Avatar,
 } from "@nextui-org/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export function Header() {
+    const navigate = useNavigate();
     const handleClearCookies = () => {
         console.log("Clearing cookies");
         document.cookie.split(";").forEach((c) => {
@@ -54,7 +55,7 @@ export function Header() {
                             <Avatar name="User" />
                         </DropdownTrigger>
                         <DropdownMenu>
-                            <DropdownItem key="favorites">Favorites</DropdownItem>
+                            <DropdownItem key="favorites" onClick={() => navigate("/favorites")}>Favorites</DropdownItem>
                             <DropdownItem key="clearCookies" onClick={handleClearCookies}>
                                 Clear cookies
                             </DropdownItem>

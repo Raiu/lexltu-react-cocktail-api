@@ -55,8 +55,9 @@ const isFilterListData = (data: ICocktailData) => {
 const getDrinks = async (resource: string, parameters?: string) => {
     const url = buildUrl(resource, parameters);
     const data = await fetchData(url);
-    if (!isDrinksData(data)) {
-        throw new Error("Invalid data");
+    if (!data) {
+        console.error("no data from request: " + url);
+        return []
     }
     return CoxParser.drinks(data.drinks as IDrinkData[]);
 };
@@ -64,8 +65,9 @@ const getDrinks = async (resource: string, parameters?: string) => {
 const getIngredients = async (resource: string, parameters?: string) => {
     const url = buildUrl(resource, parameters);
     const data = await fetchData(url);
-    if (!isIngredientsData(data)) {
-        throw new Error("Invalid data");
+    if (!data) {
+        console.error("no data from request: " + url);
+        return []
     }
     return CoxParser.ingredients(data.ingredients as IIngredientData[]);
 };
@@ -140,7 +142,7 @@ const drinkRandomCache = (): Promise<IDrink> => {
     return Promise.resolve(cachedDrinks[Math.floor(Math.random() * cachedDrinks.length)]);
 };
 
-export const Cocktail = {
+const Cocktail = {
     drinkRandom,
     drinkRandomCache,
     drinkById,
@@ -153,3 +155,5 @@ export const Cocktail = {
     getDrinks,
     getIngredients,
 };
+
+export default Cocktail;

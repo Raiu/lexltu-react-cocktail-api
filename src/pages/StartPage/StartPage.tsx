@@ -2,34 +2,37 @@ import { useCallback, useEffect, useState } from "react";
 import { IDrink } from "@interfaces";
 import { Cocktail } from "@models";
 
-import { Image, Card, CardHeader,  CardFooter, Button } from "@nextui-org/react";
+import { Image, Card, CardHeader, CardFooter, Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 
-export function StartPage() {
+export default function StartPage() {
     const [drink, setDrink] = useState({} as IDrink);
     const [surprise, setSurprise] = useState([] as IDrink[]);
-    /* const [isLoading, setIsLoading] = useState(false); */
     const navigate = useNavigate();
 
     const loadSurprise = useCallback(async () => {
-        /* setIsLoading(true); */
         const drinks = await Promise.all([...Array(6)].map(() => Cocktail.drinkRandomCache()));
         setSurprise(drinks);
     }, []);
 
     useEffect(() => {
         if (drink?.id) return;
-        Cocktail.drinkRandom()
-            .then((drink) => {
-                setDrink(drink);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                /* setIsLoading(false); */
-            });
-    } , [drink]);
+        let isMounted = true;
+        const getDrink = async () => {
+            const data = await Cocktail.drinkRandom();
+            if (!isMounted) return;
+            setDrink(data);
+        };
+        getDrink().catch((error) => {
+            console.error(error);
+            if (isMounted) {
+                navigate("/404");
+            }
+        });
+        return () => {
+            isMounted = false;
+        };
+    }, [drink, navigate]);
 
     return (
         <div className="content">
@@ -45,7 +48,11 @@ export function StartPage() {
                         {drink.category}
                     </p>
                     <p className="text-base">{drink.instructions}</p>
-                    <Button size="md" className="mt-4 w-fit" onClick={() => navigate(`/drink/${drink.id}`)}>
+                    <Button
+                        size="md"
+                        className="mt-4 w-fit"
+                        onClick={() => navigate(`/drink/${drink.id}`)}
+                    >
                         See more
                     </Button>
                 </div>

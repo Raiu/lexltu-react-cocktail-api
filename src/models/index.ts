@@ -1,1 +1,2 @@
-export * from "./Cocktail/Cocktail";
+export * from "./Cocktail";
+export * from "./Favorites"

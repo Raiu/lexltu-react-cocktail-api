@@ -1,27 +1,45 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Cocktail } from "@models";
+import { Cocktail, Favorites } from "@models";
 import { IDrink } from "@interfaces";
-import { Chip, Image } from "@nextui-org/react";
+import { Button, Chip, Image } from "@nextui-org/react";
+import { StarIcon, StarSolidIcon } from "@components/Icons";
 
 /* interface ICocktailPageProps {} */
 
 export default function CocktailPage(): ReactElement {
     const { idCox } = useParams();
-    const [drink, setDrink] = useState<IDrink | null>(null);
-    const navigate = useNavigate();
     const id = idCox ? parseInt(idCox) : null;
+    const [drink, setDrink] = useState<IDrink | null>(null);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const navigate = useNavigate();
+
+    const handleToggleFavorite = () => {
+        if (!drink) return;
+        const newSate = !isFavorite;
+        setIsFavorite(newSate);
+        newSate ? Favorites.add(drink) : Favorites.remove(drink);
+    };
 
     useEffect(() => {
-        if (!id || drink) return;
-
-        Cocktail.drinkById(id)
-            .then(setDrink)
-            .catch((error) => {
-                console.error(error);
+        if (!id || drink?.id) return;
+        let isMounted = true;
+        const getDrink = async () => {
+            const data = await Cocktail.drinkById(id);
+            if (!isMounted) return;
+            setDrink(data);
+            setIsFavorite(() => Favorites.exists(data, "id"));
+        };
+        getDrink().catch((error) => {
+            console.error(error);
+            if (isMounted) {
                 navigate("/404");
-            });
-    }, [id, drink, navigate]);
+            }
+        });
+        return () => {
+            isMounted = false;
+        };
+    }, [drink, id, navigate]);
 
     return (
         <div>
@@ -41,7 +59,16 @@ export default function CocktailPage(): ReactElement {
                         </div>
 
                         <div className="space-y-4">
-                            <h1 className="text-4xl font-bold tracking-tight">{drink.name}</h1>
+                            <div className="flex justify-between">
+                                <h1 className="text-4xl font-bold tracking-tight">{drink.name}</h1>
+                                <Button onClick={handleToggleFavorite}>
+                                    {isFavorite ? (
+                                        <StarSolidIcon className="" />
+                                    ) : (
+                                        <StarIcon className="" />
+                                    )}
+                                </Button>
+                            </div>
                             <p className="text-muted-foreground">{drink.category}</p>
                             <div>
                                 <div className="mt-2 flex flex-wrap gap-2 text-sm">
